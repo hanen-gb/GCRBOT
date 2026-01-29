@@ -16,7 +16,7 @@ Assistant intelligent multi-agents pour les étudiants de la filière **Génie R
 8. [Les 3 Agents](#-les-3-agents)
 9. [Les Tools](#-les-tools)
 10. [Technologies utilisées](#-technologies-utilisées)
-11. [Dépannage](#-dépannage)
+
 
 ---
 
