@@ -11,11 +11,10 @@ import os
 # -----------------------------
 # Weaviate Local (Docker) - par défaut localhost:8080
 WEAVIATE_HOST = os.getenv("WEAVIATE_HOST", "localhost")
-WEAVIATE_HTTP_PORT = int(os.getenv("WEAVIATE_HTTP_PORT", "8080"))
-WEAVIATE_GRPC_PORT = int(os.getenv("WEAVIATE_GRPC_PORT", "50051"))
+WEAVIATE_HTTP_PORT = int(os.getenv("WEAVIATE_HTTP_PORT", " "))
+WEAVIATE_GRPC_PORT = int(os.getenv("WEAVIATE_GRPC_PORT", " "))
 
 COLLECTION_NAME = os.getenv("WEAVIATE_COLLECTION", "WebLink")
-LINKDB_PATH = os.getenv("LINKDB_PATH", r"C:\Users\Hanen GB\Desktop\GCRBOT\gcrbot\data\linkdb.json")
 
 # Charger le fichier .env
 load_dotenv()
