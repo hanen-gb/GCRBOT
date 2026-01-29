@@ -1,4 +1,4 @@
-# 🤖 GCRBOT - Assistant Multi-Agents ENIG
+# GCRBOT - Assistant Multi-Agents ENIG
 
 Assistant intelligent multi-agents pour les étudiants de la filière **Génie Réseaux et Communications (GCR)** de l'École Nationale d'Ingénieurs de Gabès (ENIG).
 
@@ -20,7 +20,7 @@ Assistant intelligent multi-agents pour les étudiants de la filière **Génie R
 
 ---
 
-## 🎯 Présentation
+##  Présentation
 
 GCRBOT est un chatbot intelligent basé sur **CrewAI** et **Google Gemini** qui utilise une architecture multi-agents pour répondre aux questions des étudiants GCR. Le système route automatiquement les questions vers l'agent spécialisé approprié.
 
@@ -120,7 +120,7 @@ Le système GCRBOT suit un workflow en 5 étapes principales :
 ### Étape 2 : Agent Orchestrateur (GCRBotOrchestrator)
 ```
 ┌──────────────────────────────────────────────────────────────┐
-│  🎯 ORCHESTRATEUR (crew.py)                                  │
+│   ORCHESTRATEUR (crew.py)                                  │
 │  ─────────────────────────────                               │
 │  Classe : GCRBotOrchestrator                                 │
 │                                                              │
@@ -149,7 +149,7 @@ Le système GCRBOT suit un workflow en 5 étapes principales :
 ### Étape 3 : Agent Enfant (Crew Spécialisé)
 ```
 ┌──────────────────────────────────────────────────────────────┐
-│  🤖 AGENTS ENFANTS (CrewAI)                                  │
+│   AGENTS ENFANTS (CrewAI)                                  │
 │  ─────────────────────────────                               │
 │                                                              │
 │  ┌────────────────────────────────────────────────────────┐ │
@@ -365,12 +365,10 @@ Le système GCRBOT suit un workflow en 5 étapes principales :
 
 1. **Cloner le projet**
 ```bash
-cd C:\Users\Hanen GB\Desktop\GCRBOT
 ```
 
 2. **Créer l'environnement virtuel**
 ```bash
-python -m venv venv312
 ```
 
 3. **Activer l'environnement**
@@ -390,8 +388,8 @@ pip install crewai crewai-tools google-generativeai weaviate-client requests bea
 5. **Démarrer Weaviate Local (Docker)**
 ```bash
 # Créer le dossier pour Weaviate
-mkdir C:\Users\Hanen GB\Desktop\weaviate_local
-cd C:\Users\Hanen GB\Desktop\weaviate_local
+mkdir C:\Users\user\Desktop\weaviate_local
+cd C:\Users\user\Desktop\weaviate_local
 
 # Créer le fichier docker-compose.yml (voir section Weaviate ci-dessous)
 # Puis lancer Weaviate
@@ -431,16 +429,7 @@ services:
   weaviate:
     image: semitechnologies/weaviate:latest
     ports:
-      - "8080:8080"
-      - "50051:50051"
-    environment:
-      QUERY_DEFAULTS_LIMIT: 25
-      AUTHENTICATION_ANONYMOUS_ACCESS_ENABLED: 'true'
-      PERSISTENCE_DATA_PATH: '/var/lib/weaviate'
-      DEFAULT_VECTORIZER_MODULE: 'none'
-      CLUSTER_HOSTNAME: 'node1'
-    volumes:
-      - ./data:/var/lib/weaviate
+    
 ```
 
 #### Commandes Docker utiles
@@ -466,14 +455,11 @@ docker compose down
 python -m weaviate_setup.test_weaviate_connection
 ```
 
-#### URLs indexées dans Weaviate
-- ENIGPlus (emplois du temps)
-- ENIG officiel (stages, procédures)
-- Mitacs Canada (stages internationaux)
+
 
 ---
 
-## 🚀 Utilisation
+##  Utilisation
 
 ### Mode CLI (Terminal)
 
@@ -675,71 +661,17 @@ Extrait l'emploi du temps d'une semaine spécifique, incluant :
 
 ---
 
-## 🔍 Dépannage
 
-### Erreur : "KeyError: 'emploi_agent'"
-**Cause :** Les fichiers YAML de config sont mal configurés.
-**Solution :** Vérifier que chaque Crew a ses propres fichiers YAML séparés.
 
-### Erreur : "Connection refused" (Weaviate)
-**Cause :** Weaviate n'est pas démarré.
-**Solution :** Démarrer Weaviate avec Docker Compose :
-```bash
-cd C:\Users\Hanen GB\Desktop\weaviate_local
-docker compose up -d
 ```
 
-### Erreur : "API key not valid"
-**Cause :** Clé Gemini invalide ou expirée.
-**Solution :** Vérifier la variable `GOOGLE_API_KEY` dans `.env`
-
-### L'agent retourne l'emploi des profs au lieu des étudiants
-**Cause :** Mauvais filtrage des URLs.
-**Solution :** Le tool `extract_emploi_page` filtre automatiquement selon l'URL :
-- URL contient "enseignants" → Emploi profs
-- URL contient "enseignements" → Emploi étudiants
-
-### Le PDF n'est pas extrait
-**Cause :** Module pdfplumber manquant.
-**Solution :**
-```bash
-pip install pdfplumber
-```
-
----
-
-## 📝 Exemples de questions
-
-### Emplois du temps
-```
-- emploi étudiants semaine 14
-- emploi du temps GCR semaine 10
-- emploi des profs cette semaine
-```
-
-### Stages et procédures
-```
-- quels sont les programmes de Mitacs ?
-- comment postuler pour un stage au Canada ?
-- procédure de stage PFE
-- stages obligatoires ENIG
-```
-
-### Conversation
-```
-- Bonjour !
-- Hello, how are you?
-- مرحبا
-- Je suis stressé par les examens
-- Un conseil pour réussir ?
-- Merci, au revoir !
-```
 
 ---
 
 ## 👨‍💻 Auteur
 
 Projet développé pour les étudiants de la filière **GCR** de l'**ENIG** (École Nationale d'Ingénieurs de Gabès).
+par étudiante Goubaa Hanen
 
 ---
 
