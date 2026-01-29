@@ -1,0 +1,20 @@
+emploi_task:
+  description: >
+    Question sur les emplois du temps : "{question}"
+    
+    LANGUE : Réponds dans la MÊME langue que la question !
+    
+    WORKFLOW :
+    1. search_weaviate("{question}") → Obtenir l'URL #1
+    2. extract_emploi_page(url="URL_#1", semaine=N) → Extraire contenu + PDF
+    3. Formater la réponse
+    
+    RÈGLES :
+    - TOUJOURS utiliser l'URL du résultat #1 de search_weaviate
+    - JAMAIS inventer de contenu
+    - Maximum 2 appels de tools
+
+  expected_output: >
+    L'emploi du temps demandé avec contenu et lien PDF.
+
+  agent: emploi_agent
