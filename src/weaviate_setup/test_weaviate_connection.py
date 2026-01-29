@@ -3,7 +3,7 @@ import weaviate
 # Connexion Weaviate Local (Docker)
 client = weaviate.connect_to_local(
     host="localhost",
-    port=8080,
+    port=   ,
     grpc_port=50051
 )
 
