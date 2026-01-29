@@ -7,7 +7,6 @@ import time
 import os
 
 # -----------------------------
-# 🔹 CONFIGURATION (préférer les variables d'environnement)
 # -----------------------------
 # Weaviate Local (Docker) - par défaut localhost:8080
 WEAVIATE_HOST = os.getenv("WEAVIATE_HOST", "localhost")
