@@ -1,0 +1,23 @@
+stage_task:
+  description: >
+    Question sur stages/procédures : "{question}"
+    
+    LANGUE : Réponds dans la MÊME langue que la question !
+    
+    WORKFLOW :
+    1. search_weaviate("{question}") → RÉSULTAT #1 = URL principale
+    2. extract_web_content(url="URL_#1", search_keywords="...") → Extraire
+    3. Si insuffisant: smart_site_search puis extract_web_content
+    4. Formater la réponse avec sources
+    
+    RÈGLES :
+    - TOUJOURS utiliser L'URL DU RÉSULTAT #1 de Weaviate
+    - Maximum 4 appels extract_web_content
+    - Maximum 2 appels smart_site_search
+    - JAMAIS inventer de contenu
+    - Toujours citer les sources
+
+  expected_output: >
+    Réponse structurée avec sources, dans la langue de l'utilisateur.
+
+  agent: stage_agent

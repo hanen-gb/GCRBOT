@@ -1,0 +1,41 @@
+# Environnement & secrets
+.env
+.env.*
+*.env
+
+venv312/
+.env
+venv312/
+.vscode/
+__pycache__/
+
+# Python
+__pycache__/
+*.py[cod]
+
+# Virtual environment
+venv/
+.venv/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+
+# IDE / Editors
+.vscode/
+.idea/
+
+# Weaviate / CrewAI storage
+memory_storage/
+data/
+crewai_storage/
+gcrbot/src/gcrbot/gemini.py
+gcrbot/src/gcrbot/weaviate_client.py
+
+
+
+gcrbot/gcrbot-gemini.json
+gcrbot/weaviate-credentials.json
