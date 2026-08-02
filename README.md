@@ -1,58 +1,58 @@
-# GCRBOT - Assistant Multi-Agents ENIG
+# GCRBOT - ENIG Multi-Agent Assistant
 
-Assistant intelligent multi-agents pour les étudiants de la filière **Génie Réseaux et Communications (GCR)** de l'École Nationale d'Ingénieurs de Gabès (ENIG).
+Intelligent multi-agent assistant for students of the **Networks and Communications Engineering (GCR)** track at the National School of Engineers of Gabès (ENIG).
 
 ---
 
-## 📋 Table des matières
+## 📋 Table of contents
 
-1. [Présentation](#-présentation)
-2. [Fonctionnalités](#-fonctionnalités)
+1. [Overview](#-overview)
+2. [Features](#-features)
 3. [Architecture](#-architecture)
 4. [Installation](#-installation)
 5. [Configuration](#-configuration)
-6. [Utilisation](#-utilisation)
-7. [Structure des fichiers](#-structure-des-fichiers)
-8. [Les 3 Agents](#-les-3-agents)
-9. [Les Tools](#-les-tools)
-10. [Technologies utilisées](#-technologies-utilisées)
+6. [Usage](#-usage)
+7. [File structure](#-file-structure)
+8. [The 3 Agents](#-the-3-agents)
+9. [The Tools](#-the-tools)
+10. [Technologies used](#-technologies-used)
 
 
 ---
 
-##  Présentation
+##  Overview
 
-GCRBOT est un chatbot intelligent basé sur **CrewAI** et **Google Gemini** qui utilise une architecture multi-agents pour répondre aux questions des étudiants GCR. Le système route automatiquement les questions vers l'agent spécialisé approprié.
+GCRBOT is an intelligent chatbot built on **CrewAI** and **Google Gemini** that uses a multi-agent architecture to answer GCR students' questions. The system automatically routes each question to the appropriate specialized agent.
 
-### Langues supportées
-- 🇫🇷 Français
+### Supported languages
+- 🇫🇷 French
 - 🇬🇧 English
-- 🇸🇦 العربية
+- 🇸🇦 Arabic
 
 ---
 
-## ✨ Fonctionnalités
+## ✨ Features
 
-### 📅 Agent Emplois du Temps
-- Extraction des emplois du temps depuis ENIGPlus
-- Support étudiants ET enseignants
-- Extraction complète du contenu PDF (page par page)
-- Format de sortie clair et lisible
-- Lien PDF téléchargeable
+### 📅 Timetable Agent
+- Extracts timetables from ENIGPlus
+- Supports both students AND teachers
+- Full PDF content extraction (page by page)
+- Clear, readable output format
+- Downloadable PDF link
 
-### 📋 Agent Stages & Procédures
-- Informations sur les stages obligatoires (initiation, perfectionnement, PFE)
-- Programme Mitacs Canada
-- Procédures d'inscription
-- Deep crawling sémantique des sites web
-- Recherche intelligente dans les contenus
+### 📋 Internships & Procedures Agent
+- Information on mandatory internships (initiation, advanced, final-year project)
+- Mitacs Canada program
+- Registration procedures
+- Semantic deep crawling of websites
+- Intelligent search across content
 
-### 💬 Agent Conversation
-- Salutations et au revoir
-- Support émotionnel (stress, fatigue, motivation)
-- Conseils pour réussir ses études
-- Présentation du bot
-- Réponses chaleureuses avec emojis
+### 💬 Conversation Agent
+- Greetings and goodbyes
+- Emotional support (stress, fatigue, motivation)
+- Study success tips
+- Bot self-introduction
+- Warm, emoji-filled replies
 
 ---
 
@@ -60,127 +60,127 @@ GCRBOT est un chatbot intelligent basé sur **CrewAI** et **Google Gemini** qui 
 
 ```
 ┌─────────────────────────────────────────────────────────────┐
-│                        UTILISATEUR                          │
-│                    (CLI ou Streamlit)                       │
+│                            USER                              │
+│                    (CLI or Streamlit)                       │
 └─────────────────────────┬───────────────────────────────────┘
                           │
                           ▼
 ┌─────────────────────────────────────────────────────────────┐
-│                    ORCHESTRATEUR                            │
-│              (Détection langue + Routage)                   │
+│                       ORCHESTRATOR                           │
+│              (Language detection + Routing)                  │
 │                                                             │
-│  Question ──► Analyse ──► Type détecté ──► Agent assigné   │
+│  Question ──► Analysis ──► Detected type ──► Assigned agent│
 └─────────────────────────┬───────────────────────────────────┘
                           │
           ┌───────────────┼───────────────┬───────────────┐
           ▼               ▼               ▼               ▼
 ┌─────────────┐   ┌─────────────┐   ┌─────────────┐   ┌─────────────┐
 │   AGENT     │   │   AGENT     │   │   AGENT     │   │   AGENT     │
-│   EMPLOI    │   │   STAGE     │   │ CONVERSATION│   │  DOCUMENT   │
+│  TIMETABLE  │   │ INTERNSHIP  │   │CONVERSATION │   │  DOCUMENT   │
 │             │   │             │   │             │   │             │
-│ • Weaviate  │   │ • Weaviate  │   │ (Pas de     │   │ • Index     │
-│ • PDF Extract│  │ • Crawling  │   │  tools)     │   │ • Search    │
+│ • Weaviate  │   │ • Weaviate  │   │ (No tools)  │   │ • Index     │
+│ • PDF Extract│  │ • Crawling  │   │             │   │ • Search    │
 └──────┬──────┘   └──────┬──────┘   └─────────────┘   └──────┬──────┘
        │                 │                                   │
        ▼                 ▼                                   ▼
 ┌─────────────────────────────────────────────────────────────┐
-│                      WEAVIATE                               │
-│              (Base de données vectorielle)                  │
+│                         WEAVIATE                             │
+│                   (Vector database)                          │
 │                                                             │
-│  URLs indexées : ENIGPlus, ENIG, Mitacs, etc.              │
-│  Documents uploadés : PDF, DOCX, XLSX, TXT                 │
+│  Indexed URLs: ENIGPlus, ENIG, Mitacs, etc.                 │
+│  Uploaded documents: PDF, DOCX, XLSX, TXT                   │
 └─────────────────────────────────────────────────────────────┘
 ```
 
 ---
 
-## 🔄 Workflow Détaillé : User → Agent Orchestrateur → Agent Enfant → Tools → Résultat
+## 🔄 Detailed Workflow: User → Orchestrator Agent → Child Agent → Tools → Result
 
-Le système GCRBOT suit un workflow en 5 étapes principales :
+GCRBOT follows a 5-step workflow:
 
-### Étape 1 : Entrée Utilisateur (User Prompt)
+### Step 1: User Input (User Prompt)
 ```
 ┌──────────────────────────────────────────────────────────────┐
-│  👤 UTILISATEUR                                              │
+│  👤 USER                                                     │
 │  ─────────────────                                           │
-│  • Pose une question via CLI (main.py) ou Streamlit (app.py)│
-│  • Langues : Français, English, العربية                      │
-│  • Peut uploader un document (PDF, DOCX, XLSX, TXT)          │
+│  • Asks a question via CLI (main.py) or Streamlit (app.py)  │
+│  • Languages: French, English, Arabic                       │
+│  • Can upload a document (PDF, DOCX, XLSX, TXT)              │
 │                                                              │
-│  Exemples :                                                  │
-│  - "Emploi étudiants semaine 14"                            │
-│  - "C'est quoi Mitacs ?"                                    │
-│  - "Résume le document uploadé"                             │
-│  - "Bonjour !"                                              │
+│  Examples:                                                   │
+│  - "Student timetable week 14"                              │
+│  - "What is Mitacs?"                                         │
+│  - "Summarize the uploaded document"                         │
+│  - "Hello!"                                                  │
 └──────────────────────────────────────────────────────────────┘
                               │
                               ▼
 ```
 
-### Étape 2 : Agent Orchestrateur (GCRBotOrchestrator)
+### Step 2: Orchestrator Agent (GCRBotOrchestrator)
 ```
 ┌──────────────────────────────────────────────────────────────┐
-│   ORCHESTRATEUR (crew.py)                                  │
+│   ORCHESTRATOR (crew.py)                                    │
 │  ─────────────────────────────                               │
-│  Classe : GCRBotOrchestrator                                 │
+│  Class: GCRBotOrchestrator                                    │
 │                                                              │
-│  A. DÉTECTION DE LANGUE (detect_language)                   │
-│     ├── Caractères arabes → 'ar'                            │
-│     ├── Mots-clés anglais → 'en'                            │
-│     └── Par défaut → 'fr'                                   │
+│  A. LANGUAGE DETECTION (detect_language)                     │
+│     ├── Arabic characters → 'ar'                             │
+│     ├── English keywords → 'en'                              │
+│     └── Default → 'fr'                                       │
 │                                                              │
-│  B. DÉTECTION DU TYPE (detect_question_type)                │
-│     Priorité de détection :                                  │
-│     1. 📄 DOCUMENT : "fichier", "résumé", "ce document"     │
-│     2. 📅 EMPLOI : "emploi du temps", "semaine X", "horaire"│
-│     3. 📋 STAGE : "mitacs", "stage", "pfe", "procédure"     │
-│     4. 💬 CONVERSATION : "bonjour", "ça va", "merci"        │
+│  B. TYPE DETECTION (detect_question_type)                    │
+│     Detection priority:                                       │
+│     1. 📄 DOCUMENT: "file", "summary", "this document"      │
+│     2. 📅 TIMETABLE: "timetable", "week X", "schedule"       │
+│     3. 📋 INTERNSHIP: "mitacs", "internship", "procedure"    │
+│     4. 💬 CONVERSATION: "hello", "how are you", "thanks"     │
 │                                                              │
-│  C. ROUTAGE VERS L'AGENT APPROPRIÉ                          │
+│  C. ROUTING TO THE APPROPRIATE AGENT                          │
 │     orchestrator.process_question(question)                  │
-│     → Sélectionne le Crew correspondant                      │
-│     → Enrichit avec instruction de langue                    │
-│     → Ajoute contexte mémoire si nécessaire                 │
+│     → Selects the matching Crew                              │
+│     → Enriches with a language instruction                   │
+│     → Adds memory context if needed                          │
 └──────────────────────────────────────────────────────────────┘
                               │
                               ▼
 ```
 
-### Étape 3 : Agent Enfant (Crew Spécialisé)
+### Step 3: Child Agent (Specialized Crew)
 ```
 ┌──────────────────────────────────────────────────────────────┐
-│   AGENTS ENFANTS (CrewAI)                                  │
+│   CHILD AGENTS (CrewAI)                                     │
 │  ─────────────────────────────                               │
 │                                                              │
 │  ┌────────────────────────────────────────────────────────┐ │
 │  │ 📅 EmploiCrew (emploi_agent)                           │ │
-│  │    Config : agents_emploi.yaml, tasks_emploi.yaml      │ │
-│  │    Rôle : Spécialiste Emplois du Temps ENIG            │ │
-│  │    LLM : gemini-2.5-flash-lite                         │ │
+│  │    Config: agents_emploi.yaml, tasks_emploi.yaml       │ │
+│  │    Role: ENIG Timetable Specialist                     │ │
+│  │    LLM: gemini-2.5-flash-lite                          │ │
 │  │    max_iter: 5 | timeout: 120s                         │ │
 │  └────────────────────────────────────────────────────────┘ │
 │                                                              │
 │  ┌────────────────────────────────────────────────────────┐ │
 │  │ 📋 StageCrew (stage_agent)                             │ │
-│  │    Config : agents_stage.yaml, tasks_stage.yaml        │ │
-│  │    Rôle : Spécialiste Stages & Procédures ENIG         │ │
-│  │    LLM : gemini-2.5-flash-lite                         │ │
+│  │    Config: agents_stage.yaml, tasks_stage.yaml         │ │
+│  │    Role: ENIG Internships & Procedures Specialist       │ │
+│  │    LLM: gemini-2.5-flash-lite                          │ │
 │  │    max_iter: 8 | timeout: 300s                         │ │
 │  └────────────────────────────────────────────────────────┘ │
 │                                                              │
 │  ┌────────────────────────────────────────────────────────┐ │
 │  │ 💬 ConversationCrew (conversation_agent)               │ │
-│  │    Config : agents_conversation.yaml                    │ │
-│  │    Rôle : Ami Virtuel des Étudiants                    │ │
-│  │    LLM : gemini-2.5-flash-lite                         │ │
-│  │    max_iter: 3 | timeout: 60s | PAS DE TOOLS           │ │
+│  │    Config: agents_conversation.yaml                     │ │
+│  │    Role: Students' Virtual Friend                       │ │
+│  │    LLM: gemini-2.5-flash-lite                          │ │
+│  │    max_iter: 3 | timeout: 60s | NO TOOLS                │ │
 │  └────────────────────────────────────────────────────────┘ │
 │                                                              │
 │  ┌────────────────────────────────────────────────────────┐ │
 │  │ 📄 DocumentCrew (document_agent)                       │ │
-│  │    Config : agents_document.yaml, tasks_document.yaml  │ │
-│  │    Rôle : Analyste de Documents Uploadés               │ │
-│  │    LLM : gemini-2.5-flash-lite                         │ │
+│  │    Config: agents_document.yaml, tasks_document.yaml   │ │
+│  │    Role: Uploaded Document Analyst                      │ │
+│  │    LLM: gemini-2.5-flash-lite                          │ │
 │  │    max_iter: 5 | timeout: 120s                         │ │
 │  └────────────────────────────────────────────────────────┘ │
 └──────────────────────────────────────────────────────────────┘
@@ -188,100 +188,100 @@ Le système GCRBOT suit un workflow en 5 étapes principales :
                               ▼
 ```
 
-### Étape 4 : Exécution des Tools
+### Step 4: Tool Execution
 ```
 ┌──────────────────────────────────────────────────────────────┐
-│  🛠️ TOOLS (Outils Spécialisés)                              │
+│  🛠️ TOOLS (Specialized tools)                                │
 │  ─────────────────────────────                               │
 │                                                              │
-│  ┌─────────────────── TOOLS PARTAGÉS ───────────────────┐   │
+│  ┌─────────────────── SHARED TOOLS ─────────────────────┐   │
 │  │ (tools_core_optimized.py)                            │   │
 │  │                                                       │   │
 │  │ 🔍 search_weaviate(question)                         │   │
-│  │    → Recherche vectorielle dans Weaviate              │   │
-│  │    → Retourne URLs pertinentes                        │   │
+│  │    → Vector search in Weaviate                        │   │
+│  │    → Returns relevant URLs                            │   │
 │  │                                                       │   │
 │  │ 🌐 extract_web_content(url, keywords)                │   │
-│  │    → Deep crawling sémantique                         │   │
-│  │    → Extraction BeautifulSoup                         │   │
+│  │    → Semantic deep crawling                            │   │
+│  │    → BeautifulSoup extraction                         │   │
 │  │                                                       │   │
 │  │ 🔎 smart_site_search(url, keywords)                  │   │
-│  │    → Recherche pages internes d'un site               │   │
+│  │    → Searches a site's internal pages                 │   │
 │  │                                                       │   │
 │  │ 📝 semantic_search_in_text(text, query)              │   │
-│  │    → Recherche sémantique dans texte long             │   │
+│  │    → Semantic search within long text                 │   │
 │  └───────────────────────────────────────────────────────┘   │
 │                                                              │
-│  ┌─────────────────── TOOL EMPLOI ──────────────────────┐   │
+│  ┌─────────────────── TIMETABLE TOOL ───────────────────┐   │
 │  │ (tools_emploi.py)                                    │   │
 │  │                                                       │   │
 │  │ 📅 extract_emploi_page(url, semaine)                 │   │
-│  │    → Télécharge le PDF depuis ENIGPlus               │   │
-│  │    → Parse avec pdfplumber                            │   │
-│  │    → Extrait contenu page par page                    │   │
-│  │    → Retourne emploi formaté + lien PDF               │   │
+│  │    → Downloads the PDF from ENIGPlus                  │   │
+│  │    → Parses it with pdfplumber                        │   │
+│  │    → Extracts content page by page                    │   │
+│  │    → Returns formatted timetable + PDF link            │   │
 │  └───────────────────────────────────────────────────────┘   │
 │                                                              │
-│  ┌─────────────────── TOOLS DOCUMENT ───────────────────┐   │
+│  ┌─────────────────── DOCUMENT TOOLS ───────────────────┐   │
 │  │ (tools_document.py)                                  │   │
 │  │                                                       │   │
 │  │ 📤 process_uploaded_document(filepath)               │   │
-│  │    → Indexe le document dans Weaviate                 │   │
+│  │    → Indexes the document in Weaviate                 │   │
 │  │                                                       │   │
 │  │ 🔍 search_in_documents(query)                        │   │
-│  │    → Recherche dans les documents indexés             │   │
+│  │    → Searches indexed documents                       │   │
 │  │                                                       │   │
 │  │ 📋 summarize_document(filename)                      │   │
-│  │    → Génère un résumé du document                     │   │
+│  │    → Generates a document summary                     │   │
 │  │                                                       │   │
 │  │ 📚 list_documents()                                  │   │
-│  │    → Liste les documents disponibles                  │   │
+│  │    → Lists available documents                        │   │
 │  │                                                       │   │
 │  │ 💬 answer_from_document(question)                    │   │
-│  │    → Répond basé sur le contenu du document           │   │
+│  │    → Answers based on the document's content           │   │
 │  └───────────────────────────────────────────────────────┘   │
 └──────────────────────────────────────────────────────────────┘
                               │
                               ▼
 ```
 
-### Étape 5 : Résultat Final
+### Step 5: Final Result
 ```
 ┌──────────────────────────────────────────────────────────────┐
-│  📤 RÉSULTAT                                                 │
+│  📤 RESULT                                                   │
 │  ───────────                                                 │
 │                                                              │
-│  A. TRAITEMENT PAR L'AGENT                                  │
-│     • L'agent utilise les tools pour collecter les infos    │
-│     • Le LLM (Gemini) formule la réponse finale             │
-│     • Réponse dans la langue détectée (FR/EN/AR)            │
+│  A. AGENT PROCESSING                                         │
+│     • The agent uses tools to gather information            │
+│     • The LLM (Gemini) formulates the final answer          │
+│     • Reply in the detected language (FR/EN/AR)              │
 │                                                              │
-│  B. NETTOYAGE (service.py → _clean_agent_response)          │
-│     • Suppression des logs de réflexion de l'agent          │
-│     • Extraction de la réponse finale                        │
-│     • Vérification qualité (longueur minimale)              │
+│  B. CLEANUP (service.py → _clean_agent_response)             │
+│     • Removes the agent's reasoning/thought logs             │
+│     • Extracts the final answer                              │
+│     • Quality check (minimum length)                         │
 │                                                              │
-│  C. AFFICHAGE                                               │
-│     CLI : Réponse formatée dans le terminal                  │
-│     Streamlit : Bulle de chat avec style                     │
+│  C. DISPLAY                                                  │
+│     CLI: Formatted reply in the terminal                     │
+│     Streamlit: Styled chat bubble                             │
 │                                                              │
-│  D. SAUVEGARDE HISTORIQUE                                   │
-│     • Mémoire contextuelle (10 derniers échanges)            │
-│     • Fichier session_YYYYMMDD_HHMMSS.txt                   │
+│  D. HISTORY SAVING                                           │
+│     • Contextual memory (last 10 exchanges)                  │
+│     • File session_YYYYMMDD_HHMMSS.txt                       │
 └──────────────────────────────────────────────────────────────┘
 ```
 
-### Schéma de Flux Complet
+### Full Flow Diagram
 
 ```
 ┌─────────────────────────────────────────────────────────────────────────────┐
-│                           FLUX DE TRAITEMENT GCRBOT                         │
+│                          GCRBOT PROCESSING FLOW                             │
 └─────────────────────────────────────────────────────────────────────────────┘
 
-  👤 User Input                    🎯 Orchestrateur                🤖 Agent
+  👤 User Input                    🎯 Orchestrator                🤖 Agent
   ═════════════                    ════════════════                ══════════
        │                                 │                              │
-       │  "Emploi semaine 14"           │                              │
+       │  "Timetable week 14"           │                              │
        ├────────────────────────────────►│                              │
        │                                 │                              │
        │                    detect_language()                           │
@@ -295,27 +295,27 @@ Le système GCRBOT suit un workflow en 5 étapes principales :
        │                                 │              ════════         │
        │                                 │                   │          │
        │                                 │    search_weaviate()         │
-       │                                 │    → URL ENIGPlus            │
+       │                                 │    → ENIGPlus URL            │
        │                                 │           │                  │
        │                                 │    extract_emploi_page()     │
-       │                                 │    → Contenu PDF             │
+       │                                 │    → PDF content             │
        │                                 │           │                  │
        │                                 │           ▼                  │
-       │                                 │    LLM formule réponse       │
+       │                                 │    LLM formulates the reply  │
        │                                 │◄──────────────────────────────┤
        │                                 │                              │
-       │    📤 Réponse formatée         │                              │
+       │    📤 Formatted reply          │                              │
        │◄────────────────────────────────┤                              │
        │                                 │                              │
        ▼                                 ▼                              ▼
   ┌─────────────────────────────────────────────────────────────────────────┐
   │                                                                         │
-  │   📅 EMPLOI DU TEMPS - SEMAINE 14                                      │
+  │   📅 TIMETABLE - WEEK 14                                               │
   │   ════════════════════════════════                                      │
   │                                                                         │
-  │   PAGE 1 - Groupe GCR1A                                                │
-  │   • Lundi 08:15-09:45 : Micro-ondes (BENZINA H.)                       │
-  │   • Mardi 10:00-11:30 : Réseaux (AHMED M.)                             │
+  │   PAGE 1 - Group GCR1A                                                 │
+  │   • Monday 08:15-09:45: Microwaves (BENZINA H.)                        │
+  │   • Tuesday 10:00-11:30: Networks (AHMED M.)                           │
   │   ...                                                                   │
   │                                                                         │
   │   📎 PDF: https://enigplus.enig.rnu.tn/...                             │
@@ -323,31 +323,31 @@ Le système GCRBOT suit un workflow en 5 étapes principales :
   └─────────────────────────────────────────────────────────────────────────┘
 ```
 
-### Exemple de Workflow Document
+### Document Workflow Example
 
 ```
-  👤 User                          🎯 Orchestrateur              📄 DocumentAgent
+  👤 User                          🎯 Orchestrator              📄 DocumentAgent
   ════════                         ════════════════              ═══════════════
        │                                 │                              │
-       │  [Upload rapport.pdf]           │                              │
-       │  "Résume ce document"           │                              │
+       │  [Upload report.pdf]           │                              │
+       │  "Summarize this document"     │                              │
        ├────────────────────────────────►│                              │
        │                                 │                              │
        │                    detect_question_type()                      │
-       │                    → "résume" + fichier → 'document'           │
+       │                    → "summarize" + file → 'document'           │
        │                                 │                              │
        │                                 │  DocumentCrew.kickoff()      │
        │                                 ├──────────────────────────────►│
        │                                 │                              │
        │                                 │     process_uploaded_document()
-       │                                 │     → Indexation Weaviate    │
+       │                                 │     → Weaviate indexing      │
        │                                 │              │               │
        │                                 │     summarize_document()     │
-       │                                 │     → Résumé généré          │
+       │                                 │     → Summary generated      │
        │                                 │              │               │
        │                                 │◄──────────────────────────────┤
        │                                 │                              │
-       │    📋 Résumé du document       │                              │
+       │    📋 Document summary         │                              │
        │◄────────────────────────────────┤                              │
        │                                 │                              │
 ```
@@ -356,22 +356,22 @@ Le système GCRBOT suit un workflow en 5 étapes principales :
 
 ## 💻 Installation
 
-### Prérequis
+### Prerequisites
 - Python 3.12+
-- Compte Google AI (pour Gemini API)
-- Docker Desktop (pour Weaviate local)
+- Google AI account (for the Gemini API)
+- Docker Desktop (for local Weaviate)
 
-### Étapes
+### Steps
 
-1. **Cloner le projet**
+1. **Clone the project**
 ```bash
 ```
 
-2. **Créer l'environnement virtuel**
+2. **Create the virtual environment**
 ```bash
 ```
 
-3. **Activer l'environnement**
+3. **Activate the environment**
 ```powershell
 # Windows PowerShell
 .\venv312\Scripts\Activate.ps1
@@ -380,19 +380,19 @@ Le système GCRBOT suit un workflow en 5 étapes principales :
 .\venv312\Scripts\activate.bat
 ```
 
-4. **Installer les dépendances**
+4. **Install dependencies**
 ```bash
 pip install crewai crewai-tools google-generativeai weaviate-client requests beautifulsoup4 pdfplumber streamlit
 ```
 
-5. **Démarrer Weaviate Local (Docker)**
+5. **Start local Weaviate (Docker)**
 ```bash
-# Créer le dossier pour Weaviate
+# Create the folder for Weaviate
 mkdir C:\Users\user\Desktop\weaviate_local
 cd C:\Users\user\Desktop\weaviate_local
 
-# Créer le fichier docker-compose.yml (voir section Weaviate ci-dessous)
-# Puis lancer Weaviate
+# Create the docker-compose.yml file (see the Weaviate section below)
+# Then start Weaviate
 docker compose up -d
 ```
 
@@ -400,29 +400,29 @@ docker compose up -d
 
 ## ⚙ Configuration
 
-### Variables d'environnement
+### Environment variables
 
-Créer un fichier `.env` dans `gcrbot/` :
+Create a `.env` file in `gcrbot/`:
 
 ```env
 # Google Gemini API
-GOOGLE_API_KEY=votre_clé_gemini
-GEMINI_API_KEY=votre_clé_gemini
+GOOGLE_API_KEY=your_gemini_key
+GEMINI_API_KEY=your_gemini_key
 
-# Weaviate Local (Docker)
+# Local Weaviate (Docker)
 WEAVIATE_HOST=localhost
 WEAVIATE_HTTP_PORT=8080
 WEAVIATE_GRPC_PORT=50051
 
-# Modèle LLM
+# LLM model
 MODEL=gemini-2.5-flash-lite
 ```
 
-### Weaviate Local (Docker)
+### Local Weaviate (Docker)
 
-Le système utilise **Weaviate Local** comme base de données vectorielle pour indexer les URLs.
+The system uses **local Weaviate** as the vector database to index URLs.
 
-#### Configuration Docker (`docker-compose.yml`)
+#### Docker configuration (`docker-compose.yml`)
 
 ```yaml
 services:
@@ -432,26 +432,26 @@ services:
     
 ```
 
-#### Commandes Docker utiles
+#### Useful Docker commands
 
 ```bash
-# Démarrer Weaviate
+# Start Weaviate
 docker compose up -d
 
-# Vérifier le statut
+# Check status
 docker compose ps
 
-# Voir les logs
+# View logs
 docker compose logs -f weaviate
 
-# Arrêter Weaviate
+# Stop Weaviate
 docker compose down
 ```
 
-#### Tester la connexion Weaviate
+#### Test the Weaviate connection
 
 ```bash
-# Depuis le dossier gcrbot/src
+# From the gcrbot/src folder
 python -m weaviate_setup.test_weaviate_connection
 ```
 
@@ -459,205 +459,205 @@ python -m weaviate_setup.test_weaviate_connection
 
 ---
 
-##  Utilisation
+##  Usage
 
-### Mode CLI (Terminal)
+### CLI Mode (Terminal)
 
 ```bash
 cd gcrbot\src
 python -m gcrbot.main
 ```
 
-Exemple d'interaction :
+Example interaction:
 ```
-🤖 GCRBOT - Assistant Multi-Agents ENIG
+🤖 GCRBOT - ENIG Multi-Agent Assistant
 ============================================================
-👤 Vous : emploi étudiants semaine 14
-⏳ Traitement...
-📅 → Agent EMPLOI
+👤 You: student timetable week 14
+⏳ Processing...
+📅 → TIMETABLE Agent
 
-PAGE 1 - Emploi du temps Groupe GCR1A
-Lundi
-- 08:15 - 09:45 : Dispo & Micro-ondes1 (BENZINA H.)
+PAGE 1 - Timetable Group GCR1A
+Monday
+- 08:15 - 09:45: Microwaves1 (BENZINA H.)
 ...
 ```
 
-### Mode Streamlit (Interface Web)
+### Streamlit Mode (Web interface)
 
 ```bash
 streamlit run app.py
 ```
 
-Ouvrir dans le navigateur : `http://localhost:8501`
+Open in the browser: `http://localhost:8501`
 
 ---
 
-## 📁 Structure des fichiers
+## 📁 File structure
 
 ```
 C:\Users\Hanen GB\Desktop\GCRBOT\
 │
-├── README.md                       # Ce fichier
-├── app.py                          # Interface Streamlit
-├── venv312\                        # Environnement Python 3.12
+├── README.md                       # This file
+├── app.py                          # Streamlit interface
+├── venv312\                        # Python 3.12 environment
 │
 └── gcrbot\
     └── src\
         └── gcrbot\
             │
-            ├── main.py             # Point d'entrée CLI
-            ├── crew.py             # Orchestrateur multi-agents
-            ├── service.py          # Service pour Streamlit
-            ├── gemini.py           # Configuration Gemini API
+            ├── main.py             # CLI entry point
+            ├── crew.py             # Multi-agent orchestrator
+            ├── service.py          # Service for Streamlit
+            ├── gemini.py           # Gemini API configuration
             │
-            ├── tools_core_optimized.py   # Tools partagés
-            ├── tools_emploi.py           # Tool extraction PDF
-            ├── WebExtractor.py           # Deep crawling sémantique
+            ├── tools_core_optimized.py   # Shared tools
+            ├── tools_emploi.py           # PDF extraction tool
+            ├── WebExtractor.py           # Semantic deep-crawling engine
             │
             └── config\
                 ├── __init__.py
-                ├── agents_emploi.yaml        # Config Agent Emploi
+                ├── agents_emploi.yaml        # Timetable Agent config
                 ├── tasks_emploi.yaml
-                ├── agents_stage.yaml         # Config Agent Stage
+                ├── agents_stage.yaml         # Internship Agent config
                 ├── tasks_stage.yaml
-                ├── agents_conversation.yaml  # Config Agent Conversation
+                ├── agents_conversation.yaml  # Conversation Agent config
                 └── tasks_conversation.yaml
 ```
 
-### Description des fichiers
+### File descriptions
 
-| Fichier | Description |
+| File | Description |
 |---------|-------------|
-| `main.py` | Point d'entrée CLI, boucle interactive, détection de langue |
-| `crew.py` | Définition des 3 Crews (EmploiCrew, StageCrew, ConversationCrew) et orchestrateur |
-| `service.py` | Interface entre Streamlit et le système multi-agents |
-| `gemini.py` | Configuration et initialisation de l'API Google Gemini |
-| `tools_core_optimized.py` | Tools partagés : search_weaviate, extract_web_content, smart_site_search, semantic_search_in_text |
-| `tools_emploi.py` | Tool spécialisé : extract_emploi_page (extraction PDF emplois du temps) |
-| `WebExtractor.py` | Moteur de deep crawling avec scoring sémantique |
+| `main.py` | CLI entry point, interactive loop, language detection |
+| `crew.py` | Defines the 3 Crews (EmploiCrew, StageCrew, ConversationCrew) and the orchestrator |
+| `service.py` | Interface between Streamlit and the multi-agent system |
+| `gemini.py` | Google Gemini API configuration and initialization |
+| `tools_core_optimized.py` | Shared tools: search_weaviate, extract_web_content, smart_site_search, semantic_search_in_text |
+| `tools_emploi.py` | Specialized tool: extract_emploi_page (timetable PDF extraction) |
+| `WebExtractor.py` | Deep-crawling engine with semantic scoring |
 
 ---
 
-## 🤖 Les 3 Agents
+## 🤖 The 3 Agents
 
-### 1. Agent Emploi du Temps (`emploi_agent`)
+### 1. Timetable Agent (`emploi_agent`)
 
-**Fichiers config :** `agents_emploi.yaml`, `tasks_emploi.yaml`
+**Config files:** `agents_emploi.yaml`, `tasks_emploi.yaml`
 
-**Role :** Spécialiste Emplois du Temps ENIG
+**Role:** ENIG Timetable Specialist
 
-**Tools utilisés :**
-- `search_weaviate` : Recherche l'URL des emplois du temps
-- `extract_emploi_page` : Extrait le contenu PDF de la semaine demandée
+**Tools used:**
+- `search_weaviate`: finds the timetable's URL
+- `extract_emploi_page`: extracts the requested week's PDF content
 
-**Workflow :**
-1. Recherche dans Weaviate → Obtient l'URL (étudiants ou enseignants)
-2. Extraction du PDF → Contenu page par page
-3. Formatage → Réponse structurée avec lien PDF
+**Workflow:**
+1. Search in Weaviate → gets the URL (students or teachers)
+2. PDF extraction → content page by page
+3. Formatting → structured reply with the PDF link
 
-**Exemple de question :**
-- "emploi étudiants semaine 14"
-- "emploi du temps des profs semaine 10"
-
----
-
-### 2. Agent Stages & Procédures (`stage_agent`)
-
-**Fichiers config :** `agents_stage.yaml`, `tasks_stage.yaml`
-
-**Role :** Spécialiste Stages, Procédures et Informations ENIG
-
-**Tools utilisés :**
-- `search_weaviate` : Recherche l'URL pertinente
-- `smart_site_search` : Trouve les pages internes d'un site
-- `extract_web_content` : Extrait le contenu avec deep crawling
-- `semantic_search_in_text` : Recherche sémantique dans le texte
-
-**Workflow :**
-1. Recherche Weaviate → URL principale (#1)
-2. Extraction intelligente avec crawling sémantique
-3. Si insuffisant → Recherche de pages internes
-4. Formatage avec sources
-
-**Exemple de question :**
-- "quels sont les programmes de Mitacs ?"
-- "comment postuler pour un stage PFE ?"
-- "procédure d'inscription ENIG"
+**Example questions:**
+- "student timetable week 14"
+- "teacher timetable week 10"
 
 ---
 
-### 3. Agent Conversation (`conversation_agent`)
+### 2. Internships & Procedures Agent (`stage_agent`)
 
-**Fichiers config :** `agents_conversation.yaml`, `tasks_conversation.yaml`
+**Config files:** `agents_stage.yaml`, `tasks_stage.yaml`
 
-**Role :** Ami Virtuel des Étudiants ENIG
+**Role:** ENIG Internships, Procedures and Information Specialist
 
-**Tools utilisés :** Aucun (réponses directes du LLM)
+**Tools used:**
+- `search_weaviate`: finds the relevant URL
+- `smart_site_search`: finds a site's internal pages
+- `extract_web_content`: extracts content via deep crawling
+- `semantic_search_in_text`: semantic search within text
 
-**Types de messages gérés :**
-- Salutations : "Bonjour", "Hello", "مرحبا"
-- Humeur : "Je suis stressé", "Ça va ?"
-- Conseils : "Un conseil pour réussir ?"
-- Bot : "Qui es-tu ?"
-- Au revoir : "Bye", "À bientôt"
+**Workflow:**
+1. Weaviate search → main URL (#1)
+2. Intelligent extraction via semantic crawling
+3. If insufficient → searches internal pages
+4. Formats the reply with sources
 
-**Exemple de question :**
-- "Salut !"
-- "Je suis fatigué"
-- "Merci beaucoup"
+**Example questions:**
+- "what are the Mitacs programs?"
+- "how do I apply for a final-year internship?"
+- "ENIG registration procedure"
 
 ---
 
-## 🛠 Les Tools
+### 3. Conversation Agent (`conversation_agent`)
+
+**Config files:** `agents_conversation.yaml`, `tasks_conversation.yaml`
+
+**Role:** ENIG Students' Virtual Friend
+
+**Tools used:** None (direct LLM replies)
+
+**Message types handled:**
+- Greetings: "Hello", "Hi", "مرحبا"
+- Mood: "I'm stressed", "How are you?"
+- Advice: "Any tips to succeed?"
+- Bot: "Who are you?"
+- Goodbyes: "Bye", "See you soon"
+
+**Example questions:**
+- "Hi!"
+- "I'm tired"
+- "Thank you very much"
+
+---
+
+## 🛠 The Tools
 
 ### 1. `search_weaviate`
 ```python
 search_weaviate(question: str) -> str
 ```
-Recherche dans la base Weaviate et retourne les URLs pertinentes.
+Searches the Weaviate database and returns the relevant URLs.
 
 ### 2. `extract_web_content`
 ```python
 extract_web_content(url: str, search_keywords: str = "") -> str
 ```
-Extrait le contenu d'une page web avec deep crawling sémantique.
+Extracts a web page's content via semantic deep crawling.
 
 ### 3. `smart_site_search`
 ```python
 smart_site_search(url: str, search_keywords: str) -> str
 ```
-Recherche les pages internes d'un site correspondant aux mots-clés.
+Searches a site's internal pages matching the keywords.
 
 ### 4. `semantic_search_in_text`
 ```python
 semantic_search_in_text(text: str, query: str) -> str
 ```
-Recherche sémantique dans un texte long.
+Semantic search within a long text.
 
 ### 5. `extract_emploi_page`
 ```python
 extract_emploi_page(url: str, semaine: int = None) -> str
 ```
-Extrait l'emploi du temps d'une semaine spécifique, incluant :
-- Téléchargement et parsing du PDF
-- Extraction page par page (groupes GCR1A, GCR1B, etc.)
-- Format texte lisible avec jours et horaires
-- Filtrage automatique étudiants/enseignants
+Extracts a specific week's timetable, including:
+- Downloading and parsing the PDF
+- Page-by-page extraction (groups GCR1A, GCR1B, etc.)
+- Readable text format with days and time slots
+- Automatic student/teacher filtering
 
 ---
 
-## 🔧 Technologies utilisées
+## 🔧 Technologies used
 
-| Technologie | Utilisation |
+| Technology | Usage |
 |-------------|-------------|
-| **CrewAI** | Framework multi-agents |
+| **CrewAI** | Multi-agent framework |
 | **Google Gemini** | LLM (gemini-2.5-flash-lite) |
-| **Weaviate** | Base de données vectorielle |
-| **pdfplumber** | Extraction de contenu PDF |
-| **BeautifulSoup** | Parsing HTML |
-| **Requests** | Requêtes HTTP |
-| **Streamlit** | Interface web |
-| **Python 3.12** | Langage de programmation |
+| **Weaviate** | Vector database |
+| **pdfplumber** | PDF content extraction |
+| **BeautifulSoup** | HTML parsing |
+| **Requests** | HTTP requests |
+| **Streamlit** | Web interface |
+| **Python 3.12** | Programming language |
 
 ---
 
@@ -668,17 +668,17 @@ Extrait l'emploi du temps d'une semaine spécifique, incluant :
 
 ---
 
-## 👨‍💻 Auteur
+## 👨‍💻 Author
 
-Projet développé pour les étudiants de la filière **GCR** de l'**ENIG** (École Nationale d'Ingénieurs de Gabès).
-par étudiante Goubaa Hanen
-
----
-
-## 📄 Licence
-
-Ce projet est à usage éducatif pour l'ENIG.
+Project developed for students of the **GCR** track at **ENIG** (National School of Engineers of Gabès).
+by student Goubaa Hanen
 
 ---
 
-**🎓 Bonne utilisation de GCRBOT !**
+## 📄 License
+
+This project is for educational use at ENIG.
+
+---
+
+**🎓 Enjoy using GCRBOT!**
