@@ -13,7 +13,7 @@ Intelligent multi-agent assistant for students of the **Networks and Communicati
 5. [Configuration](#-configuration)
 6. [Usage](#-usage)
 7. [File structure](#-file-structure)
-8. [The 3 Agents](#-the-3-agents)
+8. [The 4 Agents](#-the-4-agents)
 9. [The Tools](#-the-tools)
 10. [Technologies used](#-technologies-used)
 
@@ -495,33 +495,36 @@ Open in the browser: `http://localhost:8501`
 ## 📁 File structure
 
 ```
-C:\Users\Hanen GB\Desktop\GCRBOT\
+GCRBOT/
 │
 ├── README.md                       # This file
 ├── app.py                          # Streamlit interface
-├── venv312\                        # Python 3.12 environment
+├── images/                         # Interface assets
 │
-└── gcrbot\
-    └── src\
-        └── gcrbot\
-            │
-            ├── main.py             # CLI entry point
-            ├── crew.py             # Multi-agent orchestrator
-            ├── service.py          # Service for Streamlit
-            ├── gemini.py           # Gemini API configuration
-            │
-            ├── tools_core_optimized.py   # Shared tools
-            ├── tools_emploi.py           # PDF extraction tool
-            ├── WebExtractor.py           # Semantic deep-crawling engine
-            │
-            └── config\
-                ├── __init__.py
-                ├── agents_emploi.yaml        # Timetable Agent config
-                ├── tasks_emploi.yaml
-                ├── agents_stage.yaml         # Internship Agent config
-                ├── tasks_stage.yaml
-                ├── agents_conversation.yaml  # Conversation Agent config
-                └── tasks_conversation.yaml
+└── src/
+    ├── weaviate_setup/             # Weaviate schema setup and connection test
+    └── gcrbot/
+        │
+        ├── main.py                 # CLI entry point
+        ├── crew.py                 # Orchestrator and the 4 specialized crews
+        ├── service.py              # Service for Streamlit
+        ├── gemini.py               # Gemini API configuration
+        │
+        ├── tools_core_optimized.py # Shared tools
+        ├── tools_emploi.py         # PDF extraction tool
+        ├── tools_document.py       # Uploaded-document indexing and search tools
+        ├── WebExtractor.py         # Semantic deep-crawling engine
+        │
+        └── config/
+            ├── __init__.py
+            ├── agents_emploi.yaml        # Timetable Agent config
+            ├── tasks_emploi.yaml
+            ├── agents_stage.yaml         # Internship Agent config
+            ├── tasks_stage.yaml
+            ├── agents_conversation.yaml  # Conversation Agent config
+            ├── tasks_conversation.yaml
+            ├── agents_document.yaml      # Document Agent config
+            └── tasks_document.yaml
 ```
 
 ### File descriptions
@@ -529,7 +532,7 @@ C:\Users\Hanen GB\Desktop\GCRBOT\
 | File | Description |
 |---------|-------------|
 | `main.py` | CLI entry point, interactive loop, language detection |
-| `crew.py` | Defines the 3 Crews (EmploiCrew, StageCrew, ConversationCrew) and the orchestrator |
+| `crew.py` | Defines the 4 Crews (EmploiCrew, StageCrew, ConversationCrew, DocumentCrew) and the orchestrator |
 | `service.py` | Interface between Streamlit and the multi-agent system |
 | `gemini.py` | Google Gemini API configuration and initialization |
 | `tools_core_optimized.py` | Shared tools: search_weaviate, extract_web_content, smart_site_search, semantic_search_in_text |
@@ -538,7 +541,7 @@ C:\Users\Hanen GB\Desktop\GCRBOT\
 
 ---
 
-## 🤖 The 3 Agents
+## 🤖 The 4 Agents
 
 ### 1. Timetable Agent (`emploi_agent`)
 
@@ -605,6 +608,30 @@ C:\Users\Hanen GB\Desktop\GCRBOT\
 - "Hi!"
 - "I'm tired"
 - "Thank you very much"
+
+---
+
+### 4. Document Agent (`document_agent`)
+
+**Config files:** `agents_document.yaml`, `tasks_document.yaml`
+
+**Role:** Document Analysis Expert
+
+**Tools used:**
+- `process_uploaded_document`: processes and indexes an uploaded file (PDF, DOCX, XLSX, TXT)
+- `search_in_documents`: searches across all indexed documents
+- `summarize_document`: summarizes a document
+- `list_documents`: lists the indexed documents
+- `answer_from_document`: answers a question from a document's content
+
+**Workflow:**
+1. Upload → the document is processed and indexed
+2. Question → relevant passages are retrieved from the indexed content
+3. Answer or summary in the user's language, using the recent conversation context
+
+**Example questions:**
+- "Summarize the uploaded document"
+- "What does this document say about the exam schedule?"
 
 ---
 

@@ -51,7 +51,7 @@ st.markdown("""
 /* Imports de fonts */
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
 
-/* Variables globales - Style Claude */
+/* Variables globales */
 :root {
     --primary-color: #8b6f47;
     --primary-hover: #6b5739;
